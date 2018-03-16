@@ -6,8 +6,9 @@ var formidable = require('formidable');
 var fs = require('fs');
 
 app.use(express.static(path.join(__dirname ,'public')))
-
-
+app.get('/web', function (req, res) {
+  res.send('web.html')
+})
 
 app.post('/upload', function(req, res){
 
@@ -29,13 +30,14 @@ app.post('/upload', function(req, res){
 
   // once all the files have been uploaded, send a response to the client
   form.on('end', function() {
-    res.end('success');
+    res.end('success');asdfas
   });
 
   // parse the incoming request containing the form data
   form.parse(req);
 
 });
+
 
 
 var PORT = 8081
