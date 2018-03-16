@@ -1,14 +1,14 @@
 Arguments: 
-  /Users/HPDeskjetPrinter/.nvm/versions/node/v8.9.0/bin/node /usr/local/Cellar/yarn/1.5.1_1/libexec/bin/yarn.js install ursa
+  /Users/HPDeskjetPrinter/.nvm/versions/node/v8.0.0/bin/node /usr/local/Cellar/yarn/1.5.1_1/libexec/bin/yarn.js add uuid-v4
 
 PATH: 
-  /Users/HPDeskjetPrinter/.nvm/versions/node/v8.9.0/bin:/Library/Frameworks/Python.framework/Versions/3.6/bin:/Library/Frameworks/Python.framework/Versions/2.7/bin:~/Library/Python/2.7/bin/:/opt/local/bin:/opt/local/sbin:/Users/HPDeskjetPrinter/Documents/mongodb-osx-x86_64-3.4.5/bin/:/Users/HPDeskjetPrinter/Downloads/apache-maven-3.5.2/bin:/opt/local/bin:/opt/local/sbin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin
+  /Library/Frameworks/Python.framework/Versions/3.6/bin:/Library/Frameworks/Python.framework/Versions/2.7/bin:~/Library/Python/2.7/bin/:/opt/local/bin:/opt/local/sbin:/Users/HPDeskjetPrinter/.nvm/versions/node/v8.0.0/bin:/Users/HPDeskjetPrinter/Documents/mongodb-osx-x86_64-3.4.5/bin/:/Users/HPDeskjetPrinter/Downloads/apache-maven-3.5.2/bin:/opt/local/bin:/opt/local/sbin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin
 
 Yarn version: 
   1.5.1
 
 Node version: 
-  8.9.0
+  8.0.0
 
 Platform: 
   darwin x64
@@ -17,7 +17,10 @@ npm manifest:
   {
     "dependencies": {
       "express": "^4.16.3",
-      "ipfs": "^0.28.2"
+      "formidable": "^1.2.0",
+      "fs-extra": "^5.0.0",
+      "ipfs": "^0.28.2",
+      "ursa": "^0.9.4"
     }
   }
 
@@ -1167,6 +1170,10 @@ Lockfile:
       combined-stream "^1.0.5"
       mime-types "^2.1.12"
   
+  formidable@^1.2.0:
+    version "1.2.0"
+    resolved "https://registry.yarnpkg.com/formidable/-/formidable-1.2.0.tgz#ce291bfec67c176e282f891ece2c37de0c83ae84"
+  
   forwarded@~0.1.2:
     version "0.1.2"
     resolved "https://registry.yarnpkg.com/forwarded/-/forwarded-0.1.2.tgz#98c23dab1175657b8c0573e8ceccd91b0ff18c84"
@@ -1180,6 +1187,14 @@ Lockfile:
     resolved "https://codeload.github.com/baudehlo/node-fs-ext/tar.gz/500be8514729c194ac7ca2b30b5bc7eaf812670d"
     dependencies:
       nan "^2.0"
+  
+  fs-extra@^5.0.0:
+    version "5.0.0"
+    resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-5.0.0.tgz#414d0110cdd06705734d055652c5411260c31abd"
+    dependencies:
+      graceful-fs "^4.1.2"
+      jsonfile "^4.0.0"
+      universalify "^0.1.0"
   
   fs.realpath@^1.0.0:
     version "1.0.0"
@@ -1304,7 +1319,7 @@ Lockfile:
       unzip-response "^2.0.1"
       url-parse-lax "^1.0.0"
   
-  graceful-fs@^4.1.11, graceful-fs@^4.1.2:
+  graceful-fs@^4.1.11, graceful-fs@^4.1.2, graceful-fs@^4.1.6:
     version "4.1.11"
     resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.1.11.tgz#0e8bdfe4d1ddb8854d64e04ea7c00e2a026e5658"
   
@@ -2096,6 +2111,12 @@ Lockfile:
     dependencies:
       delimit-stream "0.1.0"
   
+  jsonfile@^4.0.0:
+    version "4.0.0"
+    resolved "https://registry.yarnpkg.com/jsonfile/-/jsonfile-4.0.0.tgz#8771aae0799b64076b76640fca058f9c10e33ecb"
+    optionalDependencies:
+      graceful-fs "^4.1.6"
+  
   jsonify@~0.0.0:
     version "0.0.0"
     resolved "https://registry.yarnpkg.com/jsonify/-/jsonify-0.0.0.tgz#2c74b6ee41d93ca51b7b5aaee8f503631d252a73"
@@ -2196,7 +2217,7 @@ Lockfile:
       typedarray-to-buffer "~1.0.0"
       xtend "~2.1.2"
   
-  "level-js@github:timkuijsten/level.js#idbunwrapper":
+  level-js@timkuijsten/level.js#idbunwrapper:
     version "2.2.3"
     resolved "https://codeload.github.com/timkuijsten/level.js/tar.gz/18e03adab34c49523be7d3d58fafb0c632f61303"
     dependencies:
@@ -2871,7 +2892,7 @@ Lockfile:
       murmurhash3js "^3.0.1"
       nodeify "^1.0.1"
   
-  "multiplex@github:dignifiedquire/multiplex":
+  multiplex@dignifiedquire/multiplex:
     version "6.7.0"
     resolved "https://codeload.github.com/dignifiedquire/multiplex/tar.gz/b5d5edd30454e2c978ee8c52df86f5f4840d2eab"
     dependencies:
@@ -2900,7 +2921,7 @@ Lockfile:
     version "3.0.1"
     resolved "https://registry.yarnpkg.com/murmurhash3js/-/murmurhash3js-3.0.1.tgz#3e983e5b47c2a06f43a713174e7e435ca044b998"
   
-  nan@^2.0, nan@^2.0.5, nan@^2.2.1, nan@^2.6.2:
+  nan@^2.0, nan@^2.0.5, nan@^2.2.1, nan@^2.3.3, nan@^2.6.2:
     version "2.10.0"
     resolved "https://registry.yarnpkg.com/nan/-/nan-2.10.0.tgz#96d0cd610ebd58d4b4de9cc0c6828cda99c7548f"
   
@@ -4212,6 +4233,10 @@ Lockfile:
     dependencies:
       crypto-random-string "^1.0.0"
   
+  universalify@^0.1.0:
+    version "0.1.1"
+    resolved "https://registry.yarnpkg.com/universalify/-/universalify-0.1.1.tgz#fa71badd4437af4c148841e3b3b165f9e9e590b7"
+  
   unpipe@1.0.0, unpipe@~1.0.0:
     version "1.0.0"
     resolved "https://registry.yarnpkg.com/unpipe/-/unpipe-1.0.0.tgz#b2bf4ee8514aae6165b4817829d21b2ef49904ec"
@@ -4239,6 +4264,13 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/url-parse-lax/-/url-parse-lax-1.0.0.tgz#7af8f303645e9bd79a272e7a14ac68bc0609da73"
     dependencies:
       prepend-http "^1.0.1"
+  
+  ursa@^0.9.4:
+    version "0.9.4"
+    resolved "https://registry.yarnpkg.com/ursa/-/ursa-0.9.4.tgz#0a2abfb7dc4267f733b0f8f2fc7f2c895d40a413"
+    dependencies:
+      bindings "^1.2.1"
+      nan "^2.3.3"
   
   utf8-byte-length@^1.0.1:
     version "1.0.4"
@@ -4469,9 +4501,11 @@ Lockfile:
       lodash "=3.10.1"
 
 Trace: 
-  Error: `install` has been replaced with `add` to add new dependencies. Run "yarn add ursa" instead.
+  Error: Found incompatible module
       at new MessageError (/usr/local/Cellar/yarn/1.5.1_1/libexec/lib/cli.js:186:110)
-      at Object.<anonymous> (/usr/local/Cellar/yarn/1.5.1_1/libexec/lib/cli.js:21987:13)
+      at checkOne (/usr/local/Cellar/yarn/1.5.1_1/libexec/lib/cli.js:62444:11)
+      at Object.check (/usr/local/Cellar/yarn/1.5.1_1/libexec/lib/cli.js:62463:5)
+      at /usr/local/Cellar/yarn/1.5.1_1/libexec/lib/cli.js:22803:73
       at Generator.next (<anonymous>)
       at step (/usr/local/Cellar/yarn/1.5.1_1/libexec/lib/cli.js:98:30)
       at /usr/local/Cellar/yarn/1.5.1_1/libexec/lib/cli.js:109:13
