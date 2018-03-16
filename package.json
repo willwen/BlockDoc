@@ -2,6 +2,7 @@
   "dependencies": {
     "express": "^4.16.3",
     "ipfs": "^0.28.2",
-    "ursa": "^0.9.4"
+    "ursa": "^0.9.4",
+    "formidable": "^1.2.0"
   }
 }
