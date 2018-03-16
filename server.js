@@ -10,11 +10,14 @@ const multiaddr = require('multiaddr')
 var ipfsAPI = require('ipfs-api')
 
 var ipfs = ipfsAPI('/ip4/127.0.0.1/tcp/5001')
+//Set up IPFS Node//////////////////////////////////////
+var peer = "/ip4/10.189.111.5/tcp/4001/ipfs/QmZHb8mQ9ghbhkRU8mXih3YU9DYLB1jMZkfWo1QqKrKJ3C"
 
 var PORT = 8081
 
 
 // //Express Routes////////////////////////////////////////
+
 app.use(express.static(path.join(__dirname, 'public')))
 
 app.post('/upload', function(req, res) {
@@ -73,9 +76,6 @@ app.post('/upload', function(req, res) {
     form.parse(req);
 });
 
-//Set up IPFS Node//////////////////////////////////////
-var peer = "/ip4/10.189.111.5/tcp/4001/ipfs/QmZHb8mQ9ghbhkRU8mXih3YU9DYLB1jMZkfWo1QqKrKJ3C"
-
 
 
 ipfs.id().then((data) => {
@@ -106,15 +106,8 @@ ipfs.files.cat(ipfsHash, function(err, file) {
     if (err) {
         throw err
     }
-
     console.log(file.toString('utf8'))
 })
-// Your node is now ready to use \o/
-app.listen(PORT, () => {
-    console.log("Now Listening on port " + PORT + "!");
-});
-
-
 
 
 //IPFS Add
@@ -132,5 +125,9 @@ ipfs.files.add(
 	fileMultihash = filesAdded[0].hash
 	cb()
 })
+
+app.listen(PORT, () => {
+    console.log("Now Listening on port " + PORT + "!");
+});
 
             
