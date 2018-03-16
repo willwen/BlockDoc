@@ -8,18 +8,33 @@ const fse = require('fs-extra')
 // const IPFS = require('ipfs')
 const multiaddr = require('multiaddr')
 var ipfsAPI = require('ipfs-api')
+var bodyParser = require('body-parser')
 
 var ipfs = ipfsAPI('/ip4/127.0.0.1/tcp/5001')
 //Set up IPFS Node//////////////////////////////////////
 var peer = "/ip4/10.189.111.5/tcp/4001/ipfs/QmZHb8mQ9ghbhkRU8mXih3YU9DYLB1jMZkfWo1QqKrKJ3C"
+// var ipfsHash = "QmUwB2gbZvoherPARHnbkA7LrBfd8BYorpAA6X7S7xXhZZ"
 
 var PORT = 8081
 
+///////// Express Middleware
+
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+
+// parse application/json
+app.use(bodyParser.json())
+
+/////////////
 
 // //Express Routes////////////////////////////////////////
 
 app.use(express.static(path.join(__dirname, 'public')))
 
+app.post('/', (req, res) =>{
+	console.log(req.body.HashValue);
+	console.log(req.body.Key)
+})
 app.post('/upload', function(req, res) {
 
     var form = new formidable.IncomingForm();
@@ -78,53 +93,52 @@ app.post('/upload', function(req, res) {
 
 
 
-ipfs.id().then((data) => {
-    console.log(JSON.stringify(data))
-}).catch((err) => {
-    console.log(err)
-})
-ipfs.swarm.peers().then((data) => {
-    console.log(JSON.stringify(data))
-}).catch((err) => {
-    console.log(err)
-})
-ipfs.swarm.addrs(function(err, addrs) {
-    if (err) {
-        throw err
-    }
-    console.log(addrs)
-})
-ipfs.swarm.connect(multiaddr(peer), (err, res) => {
-    if (err) {
-        throw err
-    }
-    console.log(res)
-});
-var ipfsHash = "QmUwB2gbZvoherPARHnbkA7LrBfd8BYorpAA6X7S7xXhZZ"
+// ipfs.id().then((data) => {
+//     console.log(JSON.stringify(data))
+// }).catch((err) => {
+//     console.log(err)
+// })
+// ipfs.swarm.peers().then((data) => {
+//     console.log(JSON.stringify(data))
+// }).catch((err) => {
+//     console.log(err)
+// })
+// ipfs.swarm.addrs(function(err, addrs) {
+//     if (err) {
+//         throw err
+//     }
+//     console.log(addrs)
+// })
+// ipfs.swarm.connect(multiaddr(peer), (err, res) => {
+//     if (err) {
+//         throw err
+//     }
+//     console.log(res)
+// });
 
-ipfs.files.cat(ipfsHash, function(err, file) {
-    if (err) {
-        throw err
-    }
-    console.log(file.toString('utf8'))
-})
+// ipfs.files.cat(ipfsHash, function(err, file) {
+//     if (err) {
+//         throw err
+//     }
+//     console.log(file.toString('utf8'))
+// })
 
 
-//IPFS Add
-ipfs.files.add(
-{
-    path: 'hello.txt',
-    content: Buffer.from('Hello World')
-}, (err, filesAdded) => {
-    if (err) {
-        return cb(err)
-    }
-	// Once the file is added, we get back an object containing the path, the
-	// multihash and the sie of the file
-	console.log('\nAdded file:', filesAdded[0].path, filesAdded[0].hash)
-	fileMultihash = filesAdded[0].hash
-	cb()
-})
+// //IPFS Add
+// ipfs.files.add(
+// {
+//     path: 'hello.txt',
+//     content: Buffer.from('Hello World')
+// }, (err, filesAdded) => {
+//     if (err) {
+//         return cb(err)
+//     }
+// 	// Once the file is added, we get back an object containing the path, the
+// 	// multihash and the sie of the file
+// 	console.log('\nAdded file:', filesAdded[0].path, filesAdded[0].hash)
+// 	fileMultihash = filesAdded[0].hash
+// 	cb()
+// })
 
 app.listen(PORT, () => {
     console.log("Now Listening on port " + PORT + "!");
