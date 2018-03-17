@@ -1,110 +1,78 @@
-
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>BlockDoc</title>
-  <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-  <link href="css/style.css" rel="stylesheet">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>BlockDoc</title>
+    <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link href="css/style.css" rel="stylesheet">
 </head>
 
 <body>
-
-  <nav class="navbar navbar-default navbar-static-top" style="background: transparent; height: 75px">
-    <div class="container">
-        <div class="collapse navbar-collapse" id="app-navbar-collapse" style="background: transparent; margin-top: 5px">
-          <h1>SHA-2EZ</h1>
-            <ul class="nav navbar-nav navbar-left" style="margin-left: 70px">
-               
-               <li>
-                    <a href="/web.html" class="dropdown-toggle" role="button" aria-expanded="false"
-                       style="font-size: 18px;margin-top: 5px;">
+    <nav class="navbar navbar-default navbar-static-top" style="background: transparent; height: 75px">
+        <div class="container">
+            <div class="collapse navbar-collapse" id="app-navbar-collapse" style="background: transparent; margin-top: 5px">
+                <h1>SHA-2EZ</h1>
+                <ul class="nav navbar-nav navbar-left" style="margin-left: 70px">
+                    <li>
+                        <a href="/web.html" class="dropdown-toggle" role="button" aria-expanded="false" style="font-size: 18px;margin-top: 5px;">
                         Home
                     </a>
-                   
-              </li>
-
-                
-                <li>
-                    <a href="/" role="button" aria-expanded="false"
-                       style="font-size: 18px;margin-top: 5px">
+                    </li>
+                    <li>
+                        <a href="/" role="button" aria-expanded="false" style="font-size: 18px;margin-top: 5px">
                      
                         Upload
                     </a>
-                    
-                </li>
-
-                <li>
-                    <a href="/pdf.html" role="button" aria-expanded="false"
-                       style="font-size: 18px;margin-top: 5px">
+                    </li>
+                    <li>
+                        <a href="/pdf.html" role="button" aria-expanded="false" style="font-size: 18px;margin-top: 5px">
                      
                         Submit your tax
                     </a>
-                    
-                </li>
-
-                <li>
-                    <a href="/view.html" role="button" aria-expanded="false"
-                       style="font-size: 18px;margin-top: 5px">
+                    </li>
+                    <li>
+                        <a href="/view.html" role="button" aria-expanded="false" style="font-size: 18px;margin-top: 5px">
                      
                         View Doc
                     </a>
-                    
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
-
-  <div class="container">
-    <div class="row">
-      <div class="col-xs-12">
-        <div class="panel panel-default">
-          <div class="panel-body">
-            
-            <h2>Add Files to BlockDoc</h2>
-            
-            <div class="progress">
-              <div class="progress-bar" role="progressbar"></div>
+                    </li>
+                </ul>
             </div>
-            <button class="btn btn-lg upload-btn" type="button">Upload File</button>
-          </div>
-
         </div>
-
-       
-            
-        <div class="col-xs-12">
-        File Hash Value:   
-          <div id = "result", style="color: white">
-                      
-         </div>
-         <br>
-         <br>
-
-         File Key: 
-          <div id = "result2", style="color: white">
-                  
-                 
-         </div>
-       <div>
-              
-         
-
-       
-      </div>
-
-    </div>
-  </div>
-
-  <input id="upload-input" type="file" name="uploads[]" multiple="multiple"></br>
-
-  <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-  <script src="js/upload.js"></script>
+    </nav>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <h2>Add Files to BlockDoc</h2>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar"></div>
+                        </div>
+                        <button class="btn btn-lg upload-btn" type="button">Upload File</button>
+                    </div>
+                </div>
+                <div class="col-xs-12">
+                    File Hash Value:
+                    <div id="result" , style="color: white">
+                    </div>
+                    <br>
+                    <br> File Key:
+                    <div id="result2" , style="color: white">
+                    </div>
+                    <div>
+                    </div>
+                </div>
+            </div>
+            <input id="upload-input" type="file" name="uploads[]" multiple="multiple">
+            </br>
+            <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+            <script src="js/upload.js"></script>
 </body>
+
 </html>
