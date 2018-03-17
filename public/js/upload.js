@@ -30,6 +30,13 @@ $('#upload-input').on('change', function(){
       success: function(data){
           console.log('upload successful!\n');
           console.log(JSON.parse(data))
+          dataObj = JSON.parse(data)
+          $("#result").text(dataObj.fileMultihash)
+          $("#result2").text(dataObj.aesKey)
+
+
+          //console.log(data.HashValue);
+          //console.log(data.Key);
       },
       xhr: function() {
         // create an XMLHttpRequest
