@@ -50,20 +50,22 @@ app.post('/view', (req, res) =>{
 	    if (err) {
 	        throw err
 	    }
-	    let fileData = file.toString('binary');
-	    console.log(fileData)
+	    // let fileData = file.toString();
+	    // console.log(fileData)
 	    const decipher = crypto.createDecipher('aes192', aesKey);
 
-        let decrypted = decipher.update(fileData, 'hex', 'binary');
-        decrypted += decipher.final('binary');
-	    res.contentType("application/pdf");
+        let decrypted = decipher.update(file, 'hex', 'binary');
+        //outputEncoding parameter is one of 'latin1', 'base64' or 'hex'
+        //a Buffer is returned.
+        decrypted += decipher.final("binary");
+        var buffer = new Buffer(decrypted, "binary");                                          
 
-        res.send(decrypted)
-  //       fse.writeFile(outputDirectory, decrypted)
-  //       	.then(())
-  //       	        res.download(decrypted.toString());
-		//     console.log("The file was saved!");
-		// }); 
+        fse.writeFile(outputDirectory + "/output.pdf", buffer)
+        	.then(()=>{
+    	        res.download(outputDirectory+ "/output.pdf");
+
+        	})
+		    
   //       console.log(decrypted.toString());
         //use a parser 
 
@@ -96,16 +98,16 @@ app.post('/upload', function(req, res) {
                 var aesKey = hash.digest('hex')
                 console.log("AES Key is :" + aesKey)
                 const cipher = crypto.createCipher('aes192', aesKey);
-
-                let encrypted = cipher.update(data, 'binary', 'hex');
+                //data, input encoding, output encoding
+                let encrypted = cipher.update(data, 'utf8', 'hex');
                 encrypted += cipher.final('hex');
-                console.log(encrypted);
+                // console.log(encrypted);
 
                 // //IPFS Add
 				ipfs.files.add(
 				{
 				    path: myUUID,
-				    content: Buffer.from(encrypted)
+				    content: Buffer.from(encrypted, 'hex')
 				}, (err, filesAdded) => {
 				    if (err) {
 				        console.log(err)
@@ -117,7 +119,7 @@ app.post('/upload', function(req, res) {
 					res.end(JSON.stringify({
 						fileMultihash,
 	                	aesKey
-	                	
+	                		
 	                }))
 					
 				})
