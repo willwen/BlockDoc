@@ -31,9 +31,29 @@ app.use(bodyParser.json())
 
 app.use(express.static(path.join(__dirname, 'public')))
 
-app.post('/', (req, res) =>{
-	console.log(req.body.HashValue);
-	console.log(req.body.Key)
+app.post('/view', (req, res) =>{
+	let ipfsHash = req.body.HashValue;
+	let aesKey = req.body.Key;
+	//fetch the file from IPFS (using the Hash)
+	ipfs.files.cat(ipfsHash, function(err, file) {
+	    if (err) {
+	        throw err
+	    }
+	    let fileData = file.toString('utf8');
+	    console.log(fileData)
+	    const decipher = crypto.createDecipher('aes192', aesKey);
+
+        let decrypted = decipher.update(fileData, 'hex', 'utf8');
+        decrypted += decipher.final('utf8');
+        console.log(decrypted.toString());
+        //use a parser 
+        res.end(decrypted.toString());
+
+	})
+	//now we have the encrypted file;
+	//decrypt the file
+
+	//return a json representation of the file
 })
 app.post('/upload', function(req, res) {
 
@@ -47,6 +67,7 @@ app.post('/upload', function(req, res) {
         console.log(file.path)
         fse.readFile(file.path)
             .then((data) => {
+            	//
                 var key = "NOCJcxl1C/2eerkk3oGPvhdjvnqDMAfANo4sbLt4wxNps+Zn1UpSyha1PydbTrNza7QLJrXSXZq8emZ/hDBzVw=="
                 console.log("Base sha 512 key is :" + key)
                 var myUUID = uuid();
@@ -54,23 +75,37 @@ app.post('/upload', function(req, res) {
                 console.log("Unique ID is : " + myUUID);
                 var hash = crypto.createHmac('sha512', key)
                 hash.update(myUUID)
-                var value = hash.digest('hex')
-                console.log("AES Key is :" + value)
-                const cipher = crypto.createCipher('aes192', value);
+                var aesKey = hash.digest('hex')
+                console.log("AES Key is :" + aesKey)
+                const cipher = crypto.createCipher('aes192', aesKey);
 
                 let encrypted = cipher.update(data, 'utf8', 'hex');
                 encrypted += cipher.final('hex');
                 console.log(encrypted);
 
-                const decipher = crypto.createDecipher('aes192', value);
+                // //IPFS Add
+				ipfs.files.add(
+				{
+				    path: myUUID,
+				    content: Buffer.from(encrypted)
+				}, (err, filesAdded) => {
+				    if (err) {
+				        console.log(err)
+				    }
+					// Once the file is added, we get back an object containing the path, the
+					// multihash and the sie of the file
+					console.log('\nAdded file:', filesAdded[0].path, filesAdded[0].hash)
+					fileMultihash = filesAdded[0].hash
+					res.end(JSON.stringify({
+	                	aesKey,
+	                	fileMultihash
+	                }))
+					
+				})
 
-                let decrypted = decipher.update(encrypted, 'hex', 'utf8');
-                decrypted += decipher.final('utf8');
-                console.log(decrypted.toString());
+                
 
-                // var plaintext = privateDecrypt(key.privkeypem, cipherText)
-                // console.log(plaintext)
-            })
+             })
             .catch((err) => {
                 console.log(err);
             })
@@ -84,7 +119,6 @@ app.post('/upload', function(req, res) {
 
     // once all the files have been uploaded, send a response to the client
     form.on('end', function() {
-        res.end('success');
     });
 
     // parse the incoming request containing the form data
@@ -116,29 +150,10 @@ app.post('/upload', function(req, res) {
 //     console.log(res)
 // });
 
-// ipfs.files.cat(ipfsHash, function(err, file) {
-//     if (err) {
-//         throw err
-//     }
-//     console.log(file.toString('utf8'))
-// })
 
 
-// //IPFS Add
-// ipfs.files.add(
-// {
-//     path: 'hello.txt',
-//     content: Buffer.from('Hello World')
-// }, (err, filesAdded) => {
-//     if (err) {
-//         return cb(err)
-//     }
-// 	// Once the file is added, we get back an object containing the path, the
-// 	// multihash and the sie of the file
-// 	console.log('\nAdded file:', filesAdded[0].path, filesAdded[0].hash)
-// 	fileMultihash = filesAdded[0].hash
-// 	cb()
-// })
+
+
 
 app.listen(PORT, () => {
     console.log("Now Listening on port " + PORT + "!");
