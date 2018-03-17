@@ -1,45 +1,61 @@
 var express = require('express');
 var app = express();
 var path = require("path");
+var uuid = require('uuid-v4');
+var crypto = require("crypto")
 var formidable = require('formidable');
-var fs = require('fs');
-const IPFS = require('ipfs')
-// const node = new IPFS()
+const fse = require('fs-extra')
+// const IPFS = require('ipfs')
+const multiaddr = require('multiaddr')
+var ipfsAPI = require('ipfs-api')
+var bodyParser = require('body-parser')
 
-var ursa = require('ursa');
+var ipfs = ipfsAPI('/ip4/127.0.0.1/tcp/5001')
+//Set up IPFS Node//////////////////////////////////////
+var peer = "/ip4/10.189.111.5/tcp/4001/ipfs/QmZHb8mQ9ghbhkRU8mXih3YU9DYLB1jMZkfWo1QqKrKJ3C"
+// var ipfsHash = "QmUwB2gbZvoherPARHnbkA7LrBfd8BYorpAA6X7S7xXhZZ"
 
+var PORT = 8081
 
-function generatePair() {
-    var key = ursa.generatePrivateKey(1024, 65537);
-    var privkeypem = key.toPrivatePem().toString('ascii');
-    var pubkeypem = key.toPublicPem().toString('ascii');
+///////// Express Middleware
 
-    console.log(privkeypem);
-    console.log(pubkeypem)
-    return {
-        privkeypem,
-        pubkeypem
-    }
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
 
-    // console.log("Public Key : " ,diffHell.getPublicKey('hex'));
-    // console.log("Private Key : " ,diffHell.getPrivateKey('hex'));	
-}
+// parse application/json
+app.use(bodyParser.json())
 
-//https://github.com/JoshKaufman/ursa#simple-encrypt--decrypt-example
-function publicEncrypt(publicKey, plaintext) {
-    return ursa.createPublicKey(publicKey).encrypt(plaintext, 'utf8', 'base64')
-}
+/////////////
 
-function privateDecrypt(privateKey, cipherText) {
-    return ursa.createPrivateKey(privateKey).decrypt(cipherText, 'base64', 'utf8')
-}
-
+// //Express Routes////////////////////////////////////////
 
 app.use(express.static(path.join(__dirname, 'public')))
 
+app.post('/view', (req, res) =>{
+	let ipfsHash = req.body.HashValue;
+	let aesKey = req.body.Key;
+	//fetch the file from IPFS (using the Hash)
+	ipfs.files.cat(ipfsHash, function(err, file) {
+	    if (err) {
+	        throw err
+	    }
+	    let fileData = file.toString('utf8');
+	    console.log(fileData)
+	    const decipher = crypto.createDecipher('aes192', aesKey);
 
+        let decrypted = decipher.update(fileData, 'hex', 'utf8');
+        decrypted += decipher.final('utf8');
+        console.log(decrypted.toString());
+        //use a parser 
+        res.end(decrypted.toString());
+
+	})
+	//now we have the encrypted file;
+	//decrypt the file
+
+	//return a json representation of the file
+})
 app.post('/upload', function(req, res) {
-
 
     var form = new formidable.IncomingForm();
     form.maxFileSize = 8 * 1024 * 1024
@@ -48,7 +64,52 @@ app.post('/upload', function(req, res) {
     form.uploadDir = path.join(__dirname, '/uploads');
 
     form.on('file', function(field, file) {
-        fs.rename(file.path, path.join(form.uploadDir, file.name));
+        console.log(file.path)
+        fse.readFile(file.path)
+            .then((data) => {
+            	//
+                var key = "NOCJcxl1C/2eerkk3oGPvhdjvnqDMAfANo4sbLt4wxNps+Zn1UpSyha1PydbTrNza7QLJrXSXZq8emZ/hDBzVw=="
+                console.log("Base sha 512 key is :" + key)
+                var myUUID = uuid();
+
+                console.log("Unique ID is : " + myUUID);
+                var hash = crypto.createHmac('sha512', key)
+                hash.update(myUUID)
+                var aesKey = hash.digest('hex')
+                console.log("AES Key is :" + aesKey)
+                const cipher = crypto.createCipher('aes192', aesKey);
+
+                let encrypted = cipher.update(data, 'utf8', 'hex');
+                encrypted += cipher.final('hex');
+                console.log(encrypted);
+
+                // //IPFS Add
+				ipfs.files.add(
+				{
+				    path: myUUID,
+				    content: Buffer.from(encrypted)
+				}, (err, filesAdded) => {
+				    if (err) {
+				        console.log(err)
+				    }
+					// Once the file is added, we get back an object containing the path, the
+					// multihash and the sie of the file
+					console.log('\nAdded file:', filesAdded[0].path, filesAdded[0].hash)
+					fileMultihash = filesAdded[0].hash
+					res.end(JSON.stringify({
+	                	aesKey,
+	                	fileMultihash
+	                }))
+					
+				})
+
+                
+
+             })
+            .catch((err) => {
+                console.log(err);
+            })
+
     });
 
     // log any errors that occur
@@ -58,23 +119,44 @@ app.post('/upload', function(req, res) {
 
     // once all the files have been uploaded, send a response to the client
     form.on('end', function() {
-        res.end('success');
     });
 
     // parse the incoming request containing the form data
     form.parse(req);
-
-    var key = generatePair();
-    var payload = "Asdf"
-    var cipherText = publicEncrypt(key.pubkeypem, payload)
-    console.log(cipherText)
-    var plaintext = privateDecrypt(key.privkeypem, cipherText)
-    console.log(plaintext)
-
 });
 
 
-var PORT = 8081
+
+// ipfs.id().then((data) => {
+//     console.log(JSON.stringify(data))
+// }).catch((err) => {
+//     console.log(err)
+// })
+// ipfs.swarm.peers().then((data) => {
+//     console.log(JSON.stringify(data))
+// }).catch((err) => {
+//     console.log(err)
+// })
+// ipfs.swarm.addrs(function(err, addrs) {
+//     if (err) {
+//         throw err
+//     }
+//     console.log(addrs)
+// })
+// ipfs.swarm.connect(multiaddr(peer), (err, res) => {
+//     if (err) {
+//         throw err
+//     }
+//     console.log(res)
+// });
+
+
+
+
+
+
 app.listen(PORT, () => {
     console.log("Now Listening on port " + PORT + "!");
 });
+
+            

@@ -1,0 +1,98 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>BlockDoc</title>
+  <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body>
+
+<nav class="navbar navbar-default navbar-static-top" style="background: transparent; height: 75px">
+    <div class="container">
+        <div class="collapse navbar-collapse" id="app-navbar-collapse" style="background: transparent; margin-top: 5px">
+          <h1>BlockDoc</h1>
+            <ul class="nav navbar-nav navbar-left" style="margin-left: 70px">
+               
+               <li>
+                    <a href="/web.html" class="dropdown-toggle" role="button" aria-expanded="false"
+                       style="font-size: 18px;margin-top: 5px;">
+                        Home
+                    </a>
+                   
+              </li>
+
+                
+                <li>
+                    <a href="/" role="button" aria-expanded="false"
+                       style="font-size: 18px;margin-top: 5px">
+                     
+                        Upload
+                    </a>
+                    
+                </li>
+
+                <li>
+                    <a href="/view.html" role="button" aria-expanded="false"
+                       style="font-size: 18px;margin-top: 5px" >
+                     
+                        View Doc
+                    </a>
+                    
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+
+  <div class="container">
+    <div class="row">
+        <div class="col-xs-30">
+
+            <h4>Info</h4>
+                    
+            <form class="form-horizontal" role="form" method="post" action="/view">
+                       
+                <div>
+                  <div class="col-md-6 col-md-offset-3">
+                    <input id="HashValue" type="text" class="form-control" name="HashValue" placeholder="HashValue" value="">
+                                
+                  </div>
+                </div>
+
+                <br>
+                        
+                <div>
+                  <div class="col-md-6 col-md-offset-3">
+                      <input id="Key" type="text" class="form-control" name="Key" placeholder="Key"  style="margin-top: 10px">
+                  </div>
+                </div>
+
+
+                <div class="col-md-6 col-md-offset-6" style="margin-top: 10px">
+                  
+                  <button class="btn btn-lg upload-btn" type="submit">Submit</button>
+                  <br>
+                               
+                </div>
+                      
+            </form>
+          </div>
+        </div>
+      </div>
+
+  
+
+  <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script src="js/upload.js"></script>
+</body>
+</html>
