@@ -1,0 +1,105 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title>Loan Master Site | Linked PowerForm</title>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <script type="text/javascript" src="open_powerform.js"></script>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <title>Student Loan Agreement</title>
+</head>
+
+<body>
+    <div id="container">
+        <div id="header">
+            <img style="width:1213px; height:150px;" src="RMHeader.jpg">
+        </div>
+
+
+        <div id="nav">
+
+            <div class="clear"></div>
+
+        </div>
+
+        <div id="content" style="background:#FFFFFF;">
+            <div id="powerform">
+                <form name="embedded_powerform" action="open_form(this.form);">
+                    </br>
+                    </br>
+                    </br>
+                    </br>
+                    <u>
+                        <h3>
+                            <font color="0977B7">
+                                <b>Fill out the information below to complete the Student Loan Agreement</b>
+                            </font>
+                        </h3>
+                    </u>
+                    </br>
+                    </br>
+                    <h4>
+                        <h4>
+                            <br>
+                            <div style="margin-left:200px;">Student Full Name</div>
+                            </br>
+                            <input type="text" border="1" style="width:150px;margin-left:200px;" maxlength="60" id="name" name="name" />
+
+                            </br>
+                            </br>
+                            </br>
+                            </br>
+                            <div style="margin-left:200px;">Student Email</div>
+                            </br>
+                            <input type="text" border="1" style="width:150px;margin-left:200px;" maxlength="60" id="email" name="email" />
+                            </br>
+                            </br>
+                            </br>
+                            </br>
+                            </br>
+                            </br>
+                            <div style="margin-left:200px;">CoSigner Name (If Any)</div>
+                            </br>
+                            <input type="text" border="1" style="width:150px;margin-left:200px;" id="cname" name="cname" maxlength="60" />
+                            </br>
+                            </br>
+                            </br>
+                            </br>
+                            <div style="margin-left:200px;">CoSigner Email (If Any)</div>
+                            </br>
+                            <input type="text" border="1" style="width:150px;margin-left:200px;" id="cemail" name="cemail" maxlength="60" />
+                            </br>
+                            </br>
+                            </br>
+                            </br>
+                            </br>
+                            </br>
+                            <div style="margin-left:200px;">Delivery Option</div>
+                            </br>
+                            <select border="1" style="width:150px;margin-left:200px;" id="type" name="type">
+                                <option value="person">Complete now</option>
+                                <option value="mail">Complete via E-mail</option>
+                            </select>
+                            </br>
+                            </br>
+                            </br>
+                            </br>
+                            </br>
+                            </br>
+                            <button style="margin-left:200px;" type="button" onclick="open_embeddedform(this.form);">Submit</button>
+                            </br>
+                            </br>
+                </form>
+            </div>
+            <div id="powerform2">
+
+            </div>
+
+        </div>
+        <div class="footer" style="align:left;">
+            <img style="width:100%;" src="RMFooter.jpg">
+        </div>
+    </div>
+</body>
+
+</html>
