@@ -17,6 +17,17 @@ var peer = "/ip4/10.189.111.5/tcp/4001/ipfs/QmZHb8mQ9ghbhkRU8mXih3YU9DYLB1jMZkfW
 
 var PORT = 8081
 
+//Create directories, if not exist
+var uploadDir = path.join(__dirname, '/uploads')
+if (!fse.existsSync(uploadDir)) {
+    fse.mkdirSync(uploadDir);
+}
+
+var outputDirectory = path.join(__dirname + '/output')
+if (!fse.existsSync(outputDirectory)) {
+    fse.mkdirSync(outputDirectory);
+}
+
 ///////// Express Middleware
 
 // parse application/x-www-form-urlencoded
@@ -39,15 +50,22 @@ app.post('/view', (req, res) =>{
 	    if (err) {
 	        throw err
 	    }
-	    let fileData = file.toString('utf8');
+	    let fileData = file.toString('binary');
 	    console.log(fileData)
 	    const decipher = crypto.createDecipher('aes192', aesKey);
 
-        let decrypted = decipher.update(fileData, 'hex', 'utf8');
-        decrypted += decipher.final('utf8');
-        console.log(decrypted.toString());
+        let decrypted = decipher.update(fileData, 'hex', 'binary');
+        decrypted += decipher.final('binary');
+	    res.contentType("application/pdf");
+
+        res.send(decrypted)
+  //       fse.writeFile(outputDirectory, decrypted)
+  //       	.then(())
+  //       	        res.download(decrypted.toString());
+		//     console.log("The file was saved!");
+		// }); 
+  //       console.log(decrypted.toString());
         //use a parser 
-        res.end(decrypted.toString());
 
 	})
 	//now we have the encrypted file;
@@ -61,7 +79,7 @@ app.post('/upload', function(req, res) {
     form.maxFileSize = 8 * 1024 * 1024
     form.multiples = true;
 
-    form.uploadDir = path.join(__dirname, '/uploads');
+    form.uploadDir = uploadDir;
 
     form.on('file', function(field, file) {
         console.log(file.path)
@@ -79,7 +97,7 @@ app.post('/upload', function(req, res) {
                 console.log("AES Key is :" + aesKey)
                 const cipher = crypto.createCipher('aes192', aesKey);
 
-                let encrypted = cipher.update(data, 'utf8', 'hex');
+                let encrypted = cipher.update(data, 'binary', 'hex');
                 encrypted += cipher.final('hex');
                 console.log(encrypted);
 
@@ -97,8 +115,9 @@ app.post('/upload', function(req, res) {
 					console.log('\nAdded file:', filesAdded[0].path, filesAdded[0].hash)
 					fileMultihash = filesAdded[0].hash
 					res.end(JSON.stringify({
-	                	aesKey,
-	                	fileMultihash
+						fileMultihash,
+	                	aesKey
+	                	
 	                }))
 					
 				})
